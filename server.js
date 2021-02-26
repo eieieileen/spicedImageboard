@@ -4,23 +4,6 @@ const db = require("./db");
 
 app.use(express.static("public"));
 
-// const cities = [
-//     {
-//         id: 1,
-//         name: "Berlin",
-//         country: "Germany",
-//     },
-//     {
-//         id: 2,
-//         name: "Amsterdam",
-//         country: "Netherlands",
-//     },
-//     {
-//         id: 3,
-//         name: "Venice",
-//         country: "Italy",
-//     },
-// ];
 
 app.get("/images", (req, res) => {
     db.getImages().then(({rows}) => {

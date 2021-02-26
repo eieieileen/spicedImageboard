@@ -8,10 +8,10 @@
     <h1>👸🏻 Eileens Imageboard 🌿</h1>
     <div id="main">
        
-        <div v-for="img in images" 
+        <div id="pictures" v-for="img in images" 
             :key="img.id" >
-            <img src={{ img.url }} alt="images">
-            {{ img.description}}
+            <img :src="img.url" :alt="img.description">
+            {{ img.title }}
         </div> 
          
 
