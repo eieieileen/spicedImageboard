@@ -1,5 +1,12 @@
 * {
     background-color: lavenderblush;
+   
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
 }
 
 #main {
@@ -27,6 +34,5 @@
 
 #pictures p {
    position: absolute;
-   border: solid black 3px;
    margin: 0;
 }
