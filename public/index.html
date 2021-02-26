@@ -11,7 +11,9 @@
         <div id="pictures" v-for="img in images" 
             :key="img.id" >
             <img :src="img.url" :alt="img.description">
+            <p>
             {{ img.title }}
+            </p>
         </div> 
          
 
