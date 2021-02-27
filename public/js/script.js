@@ -43,7 +43,7 @@ new Vue({
                 });
         },
         handleChange: function (event) {
-            console.log("event.target.files[0] ", event.target.file[0]);
+            console.log("event.target.files[0] ", event.target.files[0]);
             console.log("handle change is running!");
             this.file = event.target.files[0];
         }

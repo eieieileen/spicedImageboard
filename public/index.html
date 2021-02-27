@@ -14,7 +14,7 @@
             <input v-model="title" type="text" name="title" placeholder="title🐨">
             <input v-model="description" type="text" name="description" placeholder="description🐸">
             <input v-model="username" type="text" name="username" placeholder="username🦄">
-            <input @change="handleClick" type="file" name="file" accept="image/*">
+            <input @change="handleChange" type="file" name="file" accept="image/*">
             <button @click.prevent="handleClick">SUBMIT</button>
         </form>
 
