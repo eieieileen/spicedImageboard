@@ -41,13 +41,21 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     const { title, username, description } = req.body;
     const {filename} = req.file;
 
+    const imgToAws = {
+        url: "https://s3.amazonaws.com/eileensimageboard/" + filename,
+        username: username,
+        title: title,
+        description: description,
+    };
+    
     if (req.file) {
         db.addImage(title, description, username, "https://s3.amazonaws.com/eileensimageboard/" + filename).then(({rows}) => {
-            console.log("response van db.addImage", rows);
+            imgToAws.id = rows.id;
+            res.json({
+                //success: true,
+                imgToAws: imgToAws
+            });
         }).catch((err) => console.log("err in ab.addImage🦆", err));
-        res.json({
-            success: true,
-        });
     } else {
         res.json({
             success: false,

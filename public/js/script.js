@@ -22,7 +22,8 @@ new Vue({
             });
     },
     methods: {
-        handleClick: function (event) {
+        handleClick: function () {
+            var self = this;
             var formData = new FormData();
             formData.append("title", this.title);
             formData.append("description", this.description);
@@ -36,7 +37,10 @@ new Vue({
             axios
                 .post("/upload", formData)
                 .then(function (response) {
-                    console.log("response from post request", response);
+
+                    console.log("response from post request", response.data.imgToAws);
+                    console.log("this.images", self.images);
+                    self.images.unshift(response.data.imgToAws);
                 })
                 .catch(function (err) {
                     console.log("error from post request", err);
@@ -46,7 +50,7 @@ new Vue({
             console.log("event.target.files[0] ", event.target.files[0]);
             console.log("handle change is running!");
             this.file = event.target.files[0];
-        }
+        },
     },
 });
 
