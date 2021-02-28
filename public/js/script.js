@@ -11,11 +11,13 @@ new Vue({
         file: null,
     },
     mounted: function () {
+        //happens here that when refresh gaat onderaan created at filteren
         var self = this;
         axios
             .get("/images")
             .then(function (response) {
                 self.images = response.data;
+                // self.images.unshift(response.data);
             })
             .catch(function (err) {
                 console.log("error in axios", err);
@@ -37,8 +39,10 @@ new Vue({
             axios
                 .post("/upload", formData)
                 .then(function (response) {
-
-                    console.log("response from post request", response.data.imgToAws);
+                    console.log(
+                        "response from post request",
+                        response.data.imgToAws
+                    );
                     console.log("this.images", self.images);
                     self.images.unshift(response.data.imgToAws);
                 })

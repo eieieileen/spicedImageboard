@@ -6,7 +6,7 @@ const db = spicedPg(
 );
 
 module.exports.getImages = () => {
-    const q = `SELECT * FROM images`;
+    const q = `SELECT * FROM images ORDER BY created_at DESC`;
     return db.query(q);
 };
 
