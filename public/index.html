@@ -21,10 +21,22 @@
                 <button @click.prevent="handleClick">SUBMIT</button>
             </form>
         </div>
+
+        <!-- needs @close after :mood -->
+       
+            
+                <first-component  v-if="clickOnImg"
+                v-bind:id="clickOnImg"></first-component> 
+                
+        <!-- v-bind:title="imagesTitle" 
+                v-bind:description="imagesDescription" 
+                v-bind:username="imagesUsername -->
+        
+
         <div id='picturesContainer'>
         <div id="pictures" v-for="img in images" 
             :key="img.id" >
-            <img :src="img.url" :alt="img.description">
+            <img @click="imageClick" :id="img.id" :src="img.url" :alt="img.description">
             <p>
             {{ img.title }}
             </p>
@@ -37,6 +49,15 @@
     </div>
     
     <footer>© Eileen Lassche, 2021</footer>
+
+    <script id="my-component-template" type="text/x-template">
+    <div>
+        <!-- <h1>This should be the image </h1> -->
+       <img :src="image.url">
+       {{image.title}} {{image.description}} {{image.username}} {{image.created_at}}
+    </div>
+    </script>
+
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
     <script src="/js/script.js"></script>

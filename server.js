@@ -39,7 +39,7 @@ app.get("/images", (req, res) => {
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     const { title, username, description } = req.body;
-    const {filename} = req.file;
+    const { filename } = req.file;
 
     const imgToAws = {
         url: "https://s3.amazonaws.com/eileensimageboard/" + filename,
@@ -47,22 +47,38 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
         title: title,
         description: description,
     };
-    
+
     if (req.file) {
         console.log("req.file", req.file);
-        db.addImage(title, description, username, "https://s3.amazonaws.com/eileensimageboard/" + filename).then(({rows}) => {
-            imgToAws.id = rows.id;
-            res.json({
-                //success: true,
-                imgToAws: imgToAws
-            });
-        }).catch((err) => console.log("err in ab.addImage🦆", err));
+        db.addImage(
+            title,
+            description,
+            username,
+            "https://s3.amazonaws.com/eileensimageboard/" + filename
+        )
+            .then(({ rows }) => {
+                imgToAws.id = rows.id;
+                res.json({
+                    //success: true,
+                    imgToAws: imgToAws,
+                });
+            })
+            .catch((err) => console.log("err in ab.addImage🦆", err));
     } else {
         res.json({
             success: false,
         });
     }
+});
 
+app.get("/info/:id", (req, res) => {
+    const { id } = req.params;
+    db.infoImage(id)
+        .then(({rows}) => {
+            console.log("response van db.infoImage", rows);
+            res.json(rows[0]);
+        })
+        .catch((err) => console.log("error in db.infoImage ✂️", err));
 });
 
 app.listen(8080, () =>

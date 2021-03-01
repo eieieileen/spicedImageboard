@@ -1,5 +1,32 @@
 console.log("sanityyyyy");
 
+Vue.component("first-component", {
+    template: "#my-component-template",
+    props: ["id"],
+    // props: ["images", "imagesTitle", "imagesDescription", "imagesUsername"],
+    data: function () {
+        return {
+            image: {}
+            // images: "images",
+            // title: "imagesTitle",
+            // description: "imagesDescription",
+            // username: "imagesUsername"
+        };
+    },
+    mounted: function () {
+        var self = this;
+        console.log(self);
+        axios.get("/info/" + self.id).then(function (response) {
+            self.image = response.data;
+            console.log("response from /info", response.data);
+        }).catch(function (err) {
+            console.log("error in /info helaas", err);
+        });
+    },
+
+    // props: ["img.id"]
+});
+
 //el = element
 new Vue({
     el: "#main",
@@ -9,6 +36,7 @@ new Vue({
         description: "",
         username: "",
         file: null,
+        clickOnImg: null,
     },
     mounted: function () {
         //happens here that when refresh gaat onderaan created at filteren
@@ -55,6 +83,14 @@ new Vue({
             console.log("handle change is running!");
             this.file = event.target.files[0];
         },
+        imageClick: function (id) {
+            this.clickOnImg = id.target.id;
+            console.log(
+                "I just clicked on an image and i hope this works! 🏅 (IT WORKS I DESERVE A MEDAL)", id.target.id);
+        },
+        // closeComponent: function() {
+        //     console.log("oh jee it sh");
+        // }
     },
 });
 
