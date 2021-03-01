@@ -49,6 +49,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     };
     
     if (req.file) {
+        console.log("req.file", req.file);
         db.addImage(title, description, username, "https://s3.amazonaws.com/eileensimageboard/" + filename).then(({rows}) => {
             imgToAws.id = rows.id;
             res.json({
