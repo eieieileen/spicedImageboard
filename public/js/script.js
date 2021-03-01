@@ -23,6 +23,13 @@ Vue.component("first-component", {
             console.log("error in /info helaas", err);
         });
     },
+    methods: {
+        closeClick: function(){
+            this.$emit("close");
+            console.log("this emit", this.$emit);
+        },
+    
+    }
 
     // props: ["img.id"]
 });
@@ -88,6 +95,14 @@ new Vue({
             console.log(
                 "I just clicked on an image and i hope this works! 🏅 (IT WORKS I DESERVE A MEDAL)", id.target.id);
         },
+        close: function () {
+            this.clickOnImg = null;
+        }
+        //its not closing when clicking on the x
+
+
+
+        
         // closeComponent: function() {
         //     console.log("oh jee it sh");
         // }
