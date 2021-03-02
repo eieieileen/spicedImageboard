@@ -6,7 +6,7 @@ Vue.component("first-component", {
     // props: ["images", "imagesTitle", "imagesDescription", "imagesUsername"],
     data: function () {
         return {
-            image: {}
+            image: {},
             // images: "images",
             // title: "imagesTitle",
             // description: "imagesDescription",
@@ -16,20 +16,22 @@ Vue.component("first-component", {
     mounted: function () {
         var self = this;
         console.log(self);
-        axios.get("/info/" + self.id).then(function (response) {
-            self.image = response.data;
-            console.log("response from /info", response.data);
-        }).catch(function (err) {
-            console.log("error in /info helaas", err);
-        });
+        axios
+            .get("/info/" + self.id)
+            .then(function (response) {
+                self.image = response.data;
+                console.log("response from /info", response.data);
+            })
+            .catch(function (err) {
+                console.log("error in /info helaas", err);
+            });
     },
     methods: {
-        closeClick: function(){
+        closeClick: function () {
             this.$emit("close");
             console.log("this emit", this.$emit);
         },
-    
-    }
+    },
 
     // props: ["img.id"]
 });
@@ -93,16 +95,15 @@ new Vue({
         imageClick: function (id) {
             this.clickOnImg = id.target.id;
             console.log(
-                "I just clicked on an image and i hope this works! 🏅 (IT WORKS I DESERVE A MEDAL)", id.target.id);
+                "I just clicked on an image and i hope this works! 🏅 (IT WORKS I DESERVE A MEDAL)",
+                id.target.id
+            );
         },
-        close: function () {
+        closingModal: function () {
             this.clickOnImg = null;
-        }
+        },
         //its not closing when clicking on the x
 
-
-
-        
         // closeComponent: function() {
         //     console.log("oh jee it sh");
         // }

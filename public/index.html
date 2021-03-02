@@ -26,7 +26,11 @@
        
             
                 <first-component  v-if="clickOnImg"
-                v-bind:id="clickOnImg"></first-component> 
+                v-bind:id="clickOnImg"
+                @close="closingModal"
+                ></first-component> 
+
+                
                 
         <!-- v-bind:title="imagesTitle" 
                 v-bind:description="imagesDescription" 
