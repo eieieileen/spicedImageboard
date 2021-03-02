@@ -108,7 +108,7 @@
                 var formData = new FormData();
                 formData.append("title", this.title);
                 formData.append("description", this.description);
-                formData.append("username", this.usernane);
+                formData.append("username", this.username);
                 formData.append("file", this.file);
                 console.log("this.title:", this.title);
                 console.log("this.description:", this.description);
@@ -134,11 +134,11 @@
                 console.log("handle change is running!");
                 this.file = event.target.files[0];
             },
-            imageClick: function (id) {
-                this.clickOnImg = id.target.id;
+            imageClick: function (event) {
+                this.clickOnImg = event.target.id;
                 console.log(
                     "I just clicked on an image and i hope this works! 🏅 (IT WORKS I DESERVE A MEDAL)",
-                    id.target.id
+                    event.target.id
                 );
             },
             closingModal: function () {

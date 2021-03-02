@@ -52,26 +52,32 @@
         <footer>© Eileen Lassche, 2021</footer>
         
         <script id="first-component-template" type="text/x-template">
-            <div>
-                <p @click="closeClick">X</p>
-                <!-- <h1>This should be the image </h1> -->
-                <img :src="image.url">
-                <p>{{image.title}} {{image.description}} {{image.username}} {{image.created_at}}</p> 
-                <second-component :id="id">
-                </second-component>
-                <!-- second component in the first because we only want to add comments when we click on the actual phtoto. -->
+            <div id="modalImgContainer">
+                <div id="modalImg">
+                    <p id="x" @click="closeClick">X</p>
+                
+                    <img :src="image.url">
+                    <p id="info">{{image.title}} - {{image.description}} - {{image.username}} - {{image.created_at}}</p> 
+                    <second-component :id="id">
+                    </second-component>
+                
+                </div>    
             </div>
         </script>
         
 <script id="second-component-template" type="text/x-template">
-    <div>
-        <div id="comments" v-for="comment in comments" :key="comment.imageid">
-        <p>{{comment.commenttext}} posted by: "{{comment.username}}"</p>
+    <div id="imgContainer">
+        <div id="input">
+            <div id="comments" v-for="comment in comments" :key="comment.imageid">
+                 <p>{{comment.commenttext}} posted by: "{{comment.username}}"</p>
+            </div>
+            <div id="input">
+                <input id="usernameComment" v-model="username" type="text" name="username" placeholder="username🌮">
+                <input id="inputComment" v-model="comment" type="text" name="comment" placeholder="Write your comment here 📝">
+                <button @click="clickOnSubmitComments">SUBMIT</button>
+            </div>
         </div>
-<input v-model="username" type="text" name="username" placeholder="username🌮">
-<input v-model="comment" type="text" name="comment" placeholder="Write your comment here 📝">
-<button @click="clickOnSubmitComments">SUBMIT</button>
-</div>
+    </div>
 </script>
 
     <script src="/js/vue.js"></script>

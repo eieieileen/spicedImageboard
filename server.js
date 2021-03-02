@@ -58,7 +58,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
             "https://s3.amazonaws.com/eileensimageboard/" + filename
         )
             .then(({ rows }) => {
-                imgToAws.id = rows.id;
+                imgToAws.id = rows[0].id;
                 res.json({
                     //success: true,
                     imgToAws: imgToAws,
