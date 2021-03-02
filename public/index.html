@@ -27,47 +27,52 @@
                 v-bind:id="clickOnImg"
                 @close="closingModal"
                 ></first-component>    
-        <!-- end of first component -->
-        
-        <!-- start of second component -->
-            <second-component></second-component>
-
-        <!-- end of second component -->
-
-
-        <div id='picturesContainer'>
-        <div id="pictures" v-for="img in images" 
-            :key="img.id" >
-            <img @click="imageClick" :id="img.id" :src="img.url" :alt="img.description">
-            <p>
-            {{ img.title }}
-            </p>
-        </div> 
+                <!-- end of first component -->
+                
+                <!-- start of second component -->
+                
+                <!-- end of second component -->
+                
+                
+                <div id='picturesContainer'>
+                    <div id="pictures" v-for="img in images" 
+                    :key="img.id" >
+                    <img @click="imageClick" :id="img.id" :src="img.url" :alt="img.description">
+                    <p>
+                        {{ img.title }}
+                    </p>
+                </div> 
+            </div>
         </div>
-    </div>
-
-    <div id="moreButton">
-     <button>Click here for more!</button>
-    </div>
-    
-    <footer>© Eileen Lassche, 2021</footer>
-
-    <script id="first-component-template" type="text/x-template">
+        
+        <div id="moreButton">
+            <button>Click here for more!</button>
+        </div>
+        
+        <footer>© Eileen Lassche, 2021</footer>
+        
+        <script id="first-component-template" type="text/x-template">
+            <div>
+                <p @click="closeClick">X</p>
+                <!-- <h1>This should be the image </h1> -->
+                <img :src="image.url">
+                <p>{{image.title}} {{image.description}} {{image.username}} {{image.created_at}}</p> 
+                <second-component :id="id">
+                </second-component>
+                <!-- second component in the first because we only want to add comments when we click on the actual phtoto. -->
+            </div>
+        </script>
+        
+<script id="second-component-template" type="text/x-template">
     <div>
-        <p @click="closeClick">X</p>
-        <!-- <h1>This should be the image </h1> -->
-       <img :src="image.url">
-      <p>{{image.title}} {{image.description}} {{image.username}} {{image.created_at}}</p> 
-    </div>
-    </script>
-
-    <script id="second-component-template" type="text/x-template">
-
-    <input v-model="username" type="text" name="username" placeholder="username🌮">
-    <input v-model="comment" type="text" name="comment" placeholder="Write your comment here 📝">
-    <button>SUBMIT</button>
-
-    </script>
+        <div id="comments" v-for="comment in comments" :key="comment.imageid">
+        <p>{{comment.commenttext}} posted by: "{{comment.username}}"</p>
+        </div>
+<input v-model="username" type="text" name="username" placeholder="username🌮">
+<input v-model="comment" type="text" name="comment" placeholder="Write your comment here 📝">
+<button @click="clickOnSubmitComments">SUBMIT</button>
+</div>
+</script>
 
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>

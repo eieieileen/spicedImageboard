@@ -25,13 +25,15 @@ module.exports.infoImage = (id) => {
 };
 
 module.exports.insertComment = (imageId, username, commenttext)  => {
-    const q = `INSERT INTO comments (imageId, username, commenttext)`;
+    const q = `INSERT INTO comments (imageId, username, commenttext)
+    VALUES ($1, $2, $3)
+    RETURNING *`;
     const params = [imageId, username, commenttext];
     return db.query(q, params);
 };
 
 module.exports.getComment = (id) => {
-    const q = `SELECT * FROM comments WHERE id = ($1)`;
+    const q = `SELECT * FROM comments WHERE imageId = ($1)`;
     const params = [id];
     return db.query(q, params);
 };

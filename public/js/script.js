@@ -9,8 +9,37 @@
                 comments: [],
                 username: "",
                 comment: "",
+                
             };
         },
+        mounted: function () {
+            var self = this;
+            console.log("second component mounted",self);
+            axios.get("/get-comments/" + this.id).then(function (response) {
+                console.log("axios get", response);
+                //put in comments
+                self.comments = response.data;
+            }).catch(function (err) {
+                console.log("error in /get-comments/", err);
+            });
+        },
+        methods: {
+            clickOnSubmitComments: function () {
+                var self = this;
+                console.log("clicked on the submit button", this.id);
+                var commentFromUser = {
+                    comment: this.comment,
+                    username: this.username,
+                    imgId: this.id,
+                };
+                axios.post("/commentToDb", commentFromUser).then(function (response){
+                    console.log("response from post send comment", response);
+                    self.comments.unshift(response.data);
+                }).catch(function (err) {
+                    console.log("error from post request submit comment", err);
+                });
+            },
+        }
     });
 
     Vue.component("first-component", {
@@ -30,7 +59,7 @@
             var self = this;
             console.log(self);
             axios
-                .get("/info/" + self.id)
+                .get("/info/" + this.id)
                 .then(function (response) {
                     self.image = response.data;
                     console.log("response from /info", response.data);
@@ -115,13 +144,9 @@
             closingModal: function () {
                 this.clickOnImg = null;
             },
-            //its not closing when clicking on the x
-
-            // closeComponent: function() {
-            //     console.log("oh jee it sh");
-            // }
+        
         },
     });
 
-    // this.seen = !this.seen;
+  
 })();

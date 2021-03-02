@@ -26,6 +26,7 @@ const uploader = multer({
 });
 
 app.use(express.static("public"));
+app.use(express.json());
 
 app.get("/images", (req, res) => {
     db.getImages()
@@ -83,10 +84,21 @@ app.get("/info/:id", (req, res) => {
 
 app.get("/get-comments/:id", (req, res) => {
     const { id } = req.params;
-    console.log(req.params);
-    db.getComment(id).then((response) => {
-        console.log("response van getcomments", response);
+    console.log("is this the id", req.params);
+    db.getComment(id).then(({ rows }) => {
+        // console.log("response van getcomments", rows);
+        res.json(rows);
     });
+});
+
+app.post("/commentToDb", (req, res) => {
+    const { imgId, username, comment } = req.body;
+    db.insertComment(imgId, username, comment)
+        .then(({rows}) => {
+            console.log("response van commenttodb", rows);
+            res.json(rows[0]);
+        })
+        .catch((err) => console.log("error in commentToDb 🥑", err));
 });
 
 app.listen(8080, () =>
