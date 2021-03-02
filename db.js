@@ -24,3 +24,15 @@ module.exports.infoImage = (id) => {
     return db.query(q, params);
 };
 
+module.exports.insertComment = (imageId, username, commenttext)  => {
+    const q = `INSERT INTO comments (imageId, username, commenttext)`;
+    const params = [imageId, username, commenttext];
+    return db.query(q, params);
+};
+
+module.exports.getComment = (id) => {
+    const q = `SELECT * FROM comments WHERE id = ($1)`;
+    const params = [id];
+    return db.query(q, params);
+};
+

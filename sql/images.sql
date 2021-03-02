@@ -1,4 +1,13 @@
+DROP TABLE IF EXISTS comments
 DROP TABLE IF EXISTS images;
+
+CREATE TABLE comments(
+    id SERIAL PRIMARY KEY,
+    imageId VARCHAR NOT NULL,
+    username VARCHAR NOT NULL,
+    commenttext VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE images(
     id SERIAL PRIMARY KEY,
@@ -29,3 +38,4 @@ INSERT INTO images (url, username, title, description) VALUES (
     'To be or not to be',
     'That is the question.'
 );
+

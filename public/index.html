@@ -22,20 +22,18 @@
             </form>
         </div>
 
-        <!-- needs @close after :mood -->
-       
-            
+        <!-- start of first component -->
                 <first-component  v-if="clickOnImg"
                 v-bind:id="clickOnImg"
                 @close="closingModal"
-                ></first-component> 
-
-                
-                
-        <!-- v-bind:title="imagesTitle" 
-                v-bind:description="imagesDescription" 
-                v-bind:username="imagesUsername -->
+                ></first-component>    
+        <!-- end of first component -->
         
+        <!-- start of second component -->
+            <second-component></second-component>
+
+        <!-- end of second component -->
+
 
         <div id='picturesContainer'>
         <div id="pictures" v-for="img in images" 
@@ -54,13 +52,21 @@
     
     <footer>© Eileen Lassche, 2021</footer>
 
-    <script id="my-component-template" type="text/x-template">
+    <script id="first-component-template" type="text/x-template">
     <div>
         <p @click="closeClick">X</p>
         <!-- <h1>This should be the image </h1> -->
        <img :src="image.url">
       <p>{{image.title}} {{image.description}} {{image.username}} {{image.created_at}}</p> 
     </div>
+    </script>
+
+    <script id="second-component-template" type="text/x-template">
+
+    <input v-model="username" type="text" name="username" placeholder="username🌮">
+    <input v-model="comment" type="text" name="comment" placeholder="Write your comment here 📝">
+    <button>SUBMIT</button>
+
     </script>
 
     <script src="/js/vue.js"></script>

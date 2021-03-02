@@ -30,7 +30,7 @@ app.use(express.static("public"));
 app.get("/images", (req, res) => {
     db.getImages()
         .then(({ rows }) => {
-            console.log("response:", rows);
+            // console.log("response:", rows);
             res.json(rows);
         })
         .catch((err) => console.log("error in db.getImages sad puppy 🐶", err));
@@ -49,7 +49,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     };
 
     if (req.file) {
-        console.log("req.file", req.file);
+        //console.log("req.file", req.file);
         db.addImage(
             title,
             description,
@@ -74,11 +74,19 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 app.get("/info/:id", (req, res) => {
     const { id } = req.params;
     db.infoImage(id)
-        .then(({rows}) => {
-            console.log("response van db.infoImage", rows);
+        .then(({ rows }) => {
+            // console.log("response van db.infoImage", rows);
             res.json(rows[0]);
         })
         .catch((err) => console.log("error in db.infoImage ✂️", err));
+});
+
+app.get("/get-comments/:id", (req, res) => {
+    const { id } = req.params;
+    console.log(req.params);
+    db.getComment(id).then((response) => {
+        console.log("response van getcomments", response);
+    });
 });
 
 app.listen(8080, () =>
