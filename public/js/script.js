@@ -80,7 +80,7 @@
                 .get("/info/" + this.id)
                 .then(function (response) {
                     self.image = response.data;
-                    console.log("self image voor watch?", self.image);
+                    console.log("self image", self.image);
                     // console.log("response from /info", response.data);
                 })
                 .catch(function (err) {
@@ -128,11 +128,13 @@
         el: "#main",
         data: {
             images: [],
+            //images[images.length -1].id
             title: "",
             description: "",
             username: "",
             file: null,
             clickOnImg: location.hash.slice(1),
+            button: true
         },
         mounted: function () {
             //happens here that when refresh gaat onderaan created at filteren
@@ -141,6 +143,7 @@
                 .get("/images")
                 .then(function (response) {
                     self.images = response.data;
+                    
                     // self.images.unshift(response.data);
                 })
                 .catch(function (err) {
@@ -171,11 +174,7 @@
                 axios
                     .post("/upload", formData)
                     .then(function (response) {
-                        // console.log(
-                        //     "response from post request",
-                        //     response.data.imgToAws
-                        // );
-                        // console.log("this.images", self.images);
+                       
                         self.images.unshift(response.data.imgToAws);
                     })
                     .catch(function (err) {
@@ -196,6 +195,26 @@
             },
             closingModal: function () {
                 this.clickOnImg = null;
+            },
+            moreButtonClick: function () { 
+                var self = this;
+                axios.get("/getNextImg/" + this.images[this.images.length -1].id).then(function (response) {
+                    console.log("response van axios getnextimg", response);
+                    //loopen door array en voor iedere iteratie een image pushen in de images array
+                    for (var i = 0; i < response.data.length; i++) {
+                        console.log("loopen door array", response.data[i]);
+                        //response.data[i].push(self.images);
+                        self.images.push(response.data[i]);
+                        
+                    }
+                    if (response == []) {
+                        self.button = false;
+                    }
+
+                }).catch(function (err) {
+                    console.log("error in moreButtonClick", err);
+                });
+                console.log("hello function called");
             },
         },
     });

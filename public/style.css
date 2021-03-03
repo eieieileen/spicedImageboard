@@ -72,7 +72,7 @@ header h1 {
 
 #moreButton {
     /* visibility: hidden; */
-    position: absolute;
+    position: fixed;
     margin: 10px;
     width: 140px;
     height: 20px;

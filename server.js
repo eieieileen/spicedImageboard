@@ -7,6 +7,7 @@ const multer = require("multer");
 const uidSafe = require("uid-safe");
 const path = require("path");
 
+
 const diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, __dirname + "/uploads");
@@ -103,6 +104,17 @@ app.post("/commentToDb", (req, res) => {
         })
         .catch((err) => console.log("error in commentToDb 🥑", err));
 });
+
+app.get("/getNextImg/:id", (req, res) => {
+    const { id } = req.params;
+    db.getNext(id).then(({rows}) => {
+        console.log("response van getNext", rows);
+        res.json(rows);
+    }).catch((err) => {
+        console.log("error in getNext", err);
+    });
+});
+
 
 app.listen(8080, () =>
     console.log("My queen, you're going great and you've got this 💪")

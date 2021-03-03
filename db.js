@@ -39,6 +39,16 @@ module.exports.getComment = (id) => {
     return db.query(q, params);
 };
 
-// module.exports.smallestId = () => {
-//     const q = 
-// };
+module.exports.getNext = (id) => {
+    const q = `  SELECT url, title, id, (
+      SELECT id FROM images
+      ORDER BY id ASC
+      LIMIT 1
+    ) AS "lowestId" FROM images
+    WHERE id < $1
+    ORDER BY id DESC
+    LIMIT 6;
+    `;
+    const params = [id];
+    return db.query(q, params);
+};

@@ -46,11 +46,11 @@
 
                 </div> 
             </div>
+            <div id="moreButton">
+                <button v-if="button" @click="moreButtonClick">Click here for more!</button>
+            </div>
         </div>
         
-        <div id="moreButton">
-            <button>Click here for more!</button>
-        </div>
         
         <footer>© Eileen Lassche, 2021</footer>
         
@@ -68,8 +68,8 @@
             </div>
         </script>
         
-<script id="second-component-template" type="text/x-template">
-    <div id="imgContainer">
+        <script id="second-component-template" type="text/x-template">
+        <div id="imgContainer">
         <div id="input">
             <div id="comments" v-for="comment in comments" :key="comment.imageid">
                  <p>{{comment.commenttext}} posted by: "{{comment.username}}"</p>
