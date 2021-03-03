@@ -35,6 +35,7 @@
                         self.comments = response.data;
                     })
                     .catch(function (err) {
+                        self.$emit("close");
                         console.log("error in /get-comments/", err);
                     });
             },
@@ -100,11 +101,12 @@
                         } else {
                             self.$emit("close");
                             location.hash = "";
-                            self.id = null;
+                            
                         }
                         // console.log("response from /info", response.data);
                     })
                     .catch(function (err) {
+                        self.$emit("close");
                         console.log("error in /info helaas", err);
                     });
             },

@@ -6,7 +6,8 @@ const db = spicedPg(
 );
 
 module.exports.getImages = () => {
-    const q = `SELECT * FROM images ORDER BY created_at DESC`;
+    const q = `SELECT * FROM images ORDER BY created_at DESC 
+    LIMIT 6`;
     return db.query(q);
 };
 
@@ -38,3 +39,6 @@ module.exports.getComment = (id) => {
     return db.query(q, params);
 };
 
+// module.exports.smallestId = () => {
+//     const q = 
+// };
