@@ -79,7 +79,10 @@ app.get("/info/:id", (req, res) => {
             // console.log("response van db.infoImage", rows);
             res.json(rows[0]);
         })
-        .catch((err) => console.log("error in db.infoImage ✂️", err));
+        .catch((err) => {
+            console.log("error in db.infoImage ✂️", err);
+            res.json();
+        });
 });
 
 app.get("/get-comments/:id", (req, res) => {
@@ -94,7 +97,7 @@ app.get("/get-comments/:id", (req, res) => {
 app.post("/commentToDb", (req, res) => {
     const { imgId, username, comment } = req.body;
     db.insertComment(imgId, username, comment)
-        .then(({rows}) => {
+        .then(({ rows }) => {
             console.log("response van commenttodb", rows);
             res.json(rows[0]);
         })

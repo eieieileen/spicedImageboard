@@ -37,10 +37,13 @@
                 <div id='picturesContainer'>
                     <div id="pictures" v-for="img in images" 
                     :key="img.id" >
-                    <img @click="imageClick" :id="img.id" :src="img.url" :alt="img.description">
-                    <p>
-                        {{ img.title }}
-                    </p>
+                    <a :href="'#' + img.id">
+                        <img :id="img.id" :src="img.url" :alt="img.description">
+                        <p>
+                            {{ img.title }}
+                        </p>
+                    </a>
+
                 </div> 
             </div>
         </div>

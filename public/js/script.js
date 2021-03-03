@@ -1,5 +1,5 @@
 (function () {
-    console.log("sanityyyyy");
+    //console.log("sanityyyyy");
 
     Vue.component("second-component", {
         template: "#second-component-template",
@@ -9,69 +9,98 @@
                 comments: [],
                 username: "",
                 comment: "",
-                
             };
         },
         mounted: function () {
             var self = this;
-            console.log("second component mounted",self);
-            axios.get("/get-comments/" + this.id).then(function (response) {
-                console.log("axios get", response);
-                //put in comments
-                self.comments = response.data;
-            }).catch(function (err) {
-                console.log("error in /get-comments/", err);
-            });
+            // console.log("second component mounted",self);
+            axios
+                .get("/get-comments/" + this.id)
+                .then(function (response) {
+                    //console.log("axios get", response);
+                    //put in comments
+                    self.comments = response.data;
+                })
+                .catch(function (err) {
+                    console.log("error in /get-comments/", err);
+                });
         },
         methods: {
             clickOnSubmitComments: function () {
                 var self = this;
-                console.log("clicked on the submit button", this.id);
+                //console.log("clicked on the submit button", this.id);
                 var commentFromUser = {
                     comment: this.comment,
                     username: this.username,
                     imgId: this.id,
                 };
-                axios.post("/commentToDb", commentFromUser).then(function (response){
-                    console.log("response from post send comment", response);
-                    self.comments.unshift(response.data);
-                }).catch(function (err) {
-                    console.log("error from post request submit comment", err);
-                });
+                axios
+                    .post("/commentToDb", commentFromUser)
+                    .then(function (response) {
+                        // console.log("response from post send comment", response);
+                        self.comments.unshift(response.data);
+                    })
+                    .catch(function (err) {
+                        console.log(
+                            "error from post request submit comment",
+                            err
+                        );
+                    });
             },
-        }
+        },
     });
 
     Vue.component("first-component", {
         template: "#first-component-template",
         props: ["id"],
-        // props: ["images", "imagesTitle", "imagesDescription", "imagesUsername"],
         data: function () {
             return {
                 image: {},
-                // images: "images",
-                // title: "imagesTitle",
-                // description: "imagesDescription",
-                // username: "imagesUsername"
             };
         },
         mounted: function () {
             var self = this;
-            console.log(self);
+            //console.log(self);
             axios
                 .get("/info/" + this.id)
                 .then(function (response) {
                     self.image = response.data;
-                    console.log("response from /info", response.data);
+                    console.log("self image voor watch?", self.image);
+                    // console.log("response from /info", response.data);
                 })
                 .catch(function (err) {
                     console.log("error in /info helaas", err);
                 });
         },
+        watch: {
+            id: function () {
+                console.log("clickOnImg changed, this is the watcher speaking");
+                var self = this;
+                //console.log(self);
+                axios
+                    .get("/info/" + this.id)
+                    .then(function (response) {
+                        if (response.data) {
+                            self.image = response.data;
+                            console.log("self image voor watch?", self.image);
+                        } else {
+                            self.$emit("close");
+                            location.hash = "";
+                            self.id = null;
+                        }
+                        // console.log("response from /info", response.data);
+                    })
+                    .catch(function (err) {
+                        console.log("error in /info helaas", err);
+                    });
+            },
+        },
         methods: {
             closeClick: function () {
                 this.$emit("close");
-                console.log("this emit", this.$emit);
+                console.log("clicking the close button");
+                // location.hash = "" && id = null;
+                // console.log("this emit", this.$emit);
             },
         },
 
@@ -87,7 +116,7 @@
             description: "",
             username: "",
             file: null,
-            clickOnImg: null,
+            clickOnImg: location.hash.slice(1),
         },
         mounted: function () {
             //happens here that when refresh gaat onderaan created at filteren
@@ -101,6 +130,14 @@
                 .catch(function (err) {
                     console.log("error in axios", err);
                 });
+
+            window.addEventListener("hashchange", function () {
+                console.log(
+                    "hash change has fired!!! something after the has changed!"
+                );
+                console.log(location.hash);
+                self.clickOnImg = location.hash.slice(1);
+            });
         },
         methods: {
             handleClick: function () {
@@ -118,11 +155,11 @@
                 axios
                     .post("/upload", formData)
                     .then(function (response) {
-                        console.log(
-                            "response from post request",
-                            response.data.imgToAws
-                        );
-                        console.log("this.images", self.images);
+                        // console.log(
+                        //     "response from post request",
+                        //     response.data.imgToAws
+                        // );
+                        // console.log("this.images", self.images);
                         self.images.unshift(response.data.imgToAws);
                     })
                     .catch(function (err) {
@@ -130,23 +167,20 @@
                     });
             },
             handleChange: function (event) {
-                console.log("event.target.files[0] ", event.target.files[0]);
-                console.log("handle change is running!");
+                // console.log("event.target.files[0] ", event.target.files[0]);
+                // console.log("handle change is running!");
                 this.file = event.target.files[0];
             },
             imageClick: function (event) {
                 this.clickOnImg = event.target.id;
-                console.log(
-                    "I just clicked on an image and i hope this works! 🏅 (IT WORKS I DESERVE A MEDAL)",
-                    event.target.id
-                );
+                // //console.log(
+                //     "I just clicked on an image and i hope this works! 🏅 (IT WORKS I DESERVE A MEDAL)",
+                //     event.target.id
+                // );
             },
             closingModal: function () {
                 this.clickOnImg = null;
             },
-        
         },
     });
-
-  
 })();
