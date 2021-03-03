@@ -36,6 +36,7 @@
                     })
                     .catch(function (err) {
                         self.$emit("close");
+                        history.pushState({}, "", "/");
                         console.log("error in /get-comments/", err);
                     });
             },
@@ -71,6 +72,8 @@
         data: function () {
             return {
                 image: {},
+                yes: false,
+                no: false,
             };
         },
         mounted: function () {
@@ -80,7 +83,15 @@
                 .get("/info/" + this.id)
                 .then(function (response) {
                     self.image = response.data;
+                    console.log("responoie", response.data.selected);
                     console.log("self image", self.image);
+                    self.selected = response.data.selected;
+
+                    if (response.data.selected === "y") {
+                        self.yes = true;
+                    } else {
+                        self.no = true;
+                    }
                     // console.log("response from /info", response.data);
                 })
                 .catch(function (err) {
@@ -114,6 +125,7 @@
         methods: {
             closeClick: function () {
                 this.$emit("close");
+                history.pushState({}, "", "/");
                 console.log("clicking the close button");
                 // location.hash = "" && id = null;
                 // console.log("this emit", this.$emit);
@@ -128,10 +140,10 @@
         el: "#main",
         data: {
             images: [],
-            //images[images.length -1].id
             title: "",
             description: "",
             username: "",
+            selected: "",
             file: null,
             clickOnImg: location.hash.slice(1),
             button: true
@@ -143,6 +155,7 @@
                 .get("/images")
                 .then(function (response) {
                     self.images = response.data;
+
                     
                     // self.images.unshift(response.data);
                 })
@@ -166,6 +179,9 @@
                 formData.append("description", this.description);
                 formData.append("username", this.username);
                 formData.append("file", this.file);
+                formData.append("selected", this.selected);
+
+                console.log("this.selected", this.selected);
                 console.log("this.title:", this.title);
                 console.log("this.description:", this.description);
                 console.log("this.username:", this.username);
@@ -207,7 +223,7 @@
                         self.images.push(response.data[i]);
                         
                     }
-                    if (response == []) {
+                    if (!response.data[1] ) {
                         self.button = false;
                     }
 
@@ -216,6 +232,7 @@
                 });
                 console.log("hello function called");
             },
+
         },
     });
 })();

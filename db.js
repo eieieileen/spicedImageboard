@@ -11,11 +11,11 @@ module.exports.getImages = () => {
     return db.query(q);
 };
 
-module.exports.addImage = (title, description, username, fullUrl) => {
-    const q = `INSERT INTO images (title, description, username, url)
-    VALUES ($1, $2, $3, $4)
+module.exports.addImage = (title, description, username, fullUrl, selected) => {
+    const q = `INSERT INTO images (title, description, username, url, selected)
+    VALUES ($1, $2, $3, $4, $5)
     RETURNING id`;
-    const params = [title, description, username, fullUrl];
+    const params = [title, description, username, fullUrl, selected];
     return db.query(q, params);
 };
 

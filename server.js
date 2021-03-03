@@ -40,7 +40,7 @@ app.get("/images", (req, res) => {
 });
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
-    const { title, username, description } = req.body;
+    const { title, username, description, selected } = req.body;
     const { filename } = req.file;
 
     const imgToAws = {
@@ -48,6 +48,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
         username: username,
         title: title,
         description: description,
+        selected: selected,
     };
 
     if (req.file) {
@@ -56,7 +57,8 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
             title,
             description,
             username,
-            "https://s3.amazonaws.com/eileensimageboard/" + filename
+            "https://s3.amazonaws.com/eileensimageboard/" + filename,
+            selected
         )
             .then(({ rows }) => {
                 imgToAws.id = rows[0].id;
