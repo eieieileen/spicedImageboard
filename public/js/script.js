@@ -25,6 +25,20 @@
                     console.log("error in /get-comments/", err);
                 });
         },
+        watch: {
+            id: function () {
+                var self = this;
+                axios
+                    .get("/get-comments/" + this.id)
+                    .then(function (response) {
+                   
+                        self.comments = response.data;
+                    })
+                    .catch(function (err) {
+                        console.log("error in /get-comments/", err);
+                    });
+            },
+        },
         methods: {
             clickOnSubmitComments: function () {
                 var self = this;
